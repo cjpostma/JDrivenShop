@@ -33,11 +33,13 @@ public class ShoeController {
             @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
             @ApiResponse(responseCode = "404", description = "Shoe not found", content = @Content)}) // @formatter:on
     @GetMapping("/{id}")
+    @RetrievalOperation
     public Shoe findById(@Parameter(description = "id of shoe to be searched") @PathVariable long id) {
         return repository.findById(id).orElseThrow(ShoeNotFoundException::new);
     }
 
-    @GetMapping("/")
+    @GetMapping("/all")
+    @RetrievalOperation
     public Collection<Shoe> findShoes() {
         return repository.getShoes();
     }

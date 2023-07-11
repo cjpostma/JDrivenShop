@@ -1,0 +1,10 @@
+spring:
+  application:
+    name: JDriven webshop
+
+springdoc:
+  pathsToMatch: /api/**
+  api-docs:
+    path: /restapi/v1/docs
+  swagger-ui:
+    path: /restapi
