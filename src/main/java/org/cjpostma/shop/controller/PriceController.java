@@ -1,5 +1,10 @@
 package org.cjpostma.shop.controller;
 
+import io.swagger.v3.oas.annotations.Operation;
+import io.swagger.v3.oas.annotations.media.Content;
+import io.swagger.v3.oas.annotations.media.Schema;
+import io.swagger.v3.oas.annotations.responses.ApiResponse;
+import io.swagger.v3.oas.annotations.responses.ApiResponses;
 import org.cjpostma.shop.model.Shoe;
 import org.cjpostma.shop.repository.PriceRepository;
 import org.springframework.http.HttpStatus;
@@ -21,10 +26,16 @@ public class PriceController {
         this.repository = repository;
     }
 
+    @Operation(summary = "Set a price on a certain style of shoe")
+    @ApiResponses(value = {
+            @ApiResponse(responseCode = "200", description = "Found the shoe",
+                    content = {@Content(mediaType = "application/json", schema = @Schema(implementation = Shoe.class))}),
+            @ApiResponse(responseCode = "400", description = "Invalid id supplied", content = @Content),
+            @ApiResponse(responseCode = "404", description = "Shoe not found", content = @Content)}) // @formatter:on
     @PostMapping("/{style}/{price}")
     @ResponseStatus(HttpStatus.OK)
-    public void updatePrice(@PathVariable final String style, BigDecimal price) {
+    public void updatePrice(@PathVariable final Shoe.Style style, BigDecimal price) {
 
-        repository.setPrice(Shoe.Style.getStyle(style), price);
+        repository.setPrice(style, price);
     }
 }
